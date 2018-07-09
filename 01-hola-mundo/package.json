@@ -1,0 +1,16 @@
+{
+  "name": "01-hola-mundo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node_modules/nodemon/bin/nodemon.js app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^1.17.5"
+  }
+}
