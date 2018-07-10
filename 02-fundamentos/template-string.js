@@ -16,4 +16,4 @@ function getNombre () {
     return `${nombre} ${real}`;
 }
 
-console.log(`el nombre completo es: ${getNombre()}`)
+console.log(`el nombre completo es: ${getNombre()}`);
