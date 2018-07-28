@@ -1,4 +1,5 @@
-const axios = require('axios');
+const lugar = require('./lugar/lugar');
+const clima = require('./clima/clima');
 const argv = require('yargs').options({
     direccion: {
         alias: 'd',
@@ -7,24 +8,20 @@ const argv = require('yargs').options({
     }
 }).argv;
 
-const  encodeUrl = encodeURI(argv.direccion);
-axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${ encodeUrl }&key=AIzaSyA-HXVa2jtkGfKtIJwisxgC46RaWqC1xuI`)
-    .then( resp => {
-        // truco para ver todo lo que trae un JSON
-        // console.log(JSON.stringify(resp.data, undefined, 2));
-        // const data = resp.data.results[0];
+const getInfo = async (direccion) => {
 
+    try {
+        const coors = await lugar.getLugarLatLng(direccion);
+        const temp = await clima.getClima( coors.lat, coors.lng);
+        
+        return `El clima en ${ direccion } es de ${temp}`;
 
-        if (resp.data.status !== 'ZERO_RESULTS') {
-            const data = resp.data.results[0];
+    } catch (error) {
+        return `no se pudo determinar el clima en ${ direccion }`
+    } 
+   
+}
 
-            console.log('----------------------------------------------------------');
-            console.log('Dirección: ', data.formatted_address);
-            console.log('Latitud: ', data.geometry.location.lat);
-            console.log('Longitud: ', data.geometry.location.lng);
-            console.log('-----------------------------------------------------------');
-        } else {
-            console.log('Direccion no valida');
-        }
-    })
-    .catch( e => console.log(e.response) )
+getInfo(argv.direccion)
+    .then( message => console.log(message))
+    .catch( e => console.log(e)); 
